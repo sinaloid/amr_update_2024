@@ -225,6 +225,7 @@ Route::get('/dashboard/membre', [AgentController::class, 'membre'])->name('membr
 //Route::post('/adhesion', [AdhesionController::class, 'create'])->name('createAdhesion');
 Route::get('/dashboard/deleteAdherent/{slug}', [AdhesionController::class, 'deleteAdherent'])->name('deleteAdherent');
 Route::get('/dashboard/adhesion', [AdhesionController::class, 'adhesion'])->name('adherents');
+Route::get('/thematiques-detail/{slug}', [ThematiqueController::class, 'show'])->name('thematiquesShow');
 
 Route::resource('/dashboard/carburant', CarburantController::class);
 Route::resource('/dashboard/fichier', FichierAMRController::class);
@@ -236,6 +237,7 @@ Route::resource('/dashboard/agents', AgentController::class);
 Route::resource('/dashboard/partenaires', PartenaireController::class);
 Route::resource('/dashboard/newsletters', NewsletterController::class);
 Route::resource('/dashboard/thematiques', ThematiqueController::class);
+
 
 Route::get('{id}', function () {
     $datas = [

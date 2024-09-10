@@ -122,9 +122,13 @@ class ThematiqueController extends Controller
      * @param  \App\Models\Actualite  $actualite
      * @return \Illuminate\Http\Response
      */
-    public function show(Actualite $actualite)
+    public function show($slug)
     {
-        //
+        $thematique = Thematique::where([
+            'slug'=> $slug,
+            'is_delete' => false
+        ])->first();
+        return view('thematique',compact('thematique'));
     }
 
     /**

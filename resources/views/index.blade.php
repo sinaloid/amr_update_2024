@@ -142,7 +142,7 @@
                             <p>
                                 {!! $item->description !!}
                             </p>
-                            <h5 class="mb-1">{{$item->nom}}</h5>
+                            <!--h5 class="mb-1">{{ $item->nom }}</h5-->
                             <!--span class="fst-italic">Profession</span-->
                         </div>
                     </div>
@@ -160,64 +160,24 @@
                 <h1>Nos domaines d'interventions</h1>
             </div>
             <div class="row g-4">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="service-item bg-light rounded h-100 p-5">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4"
-                            style="width: 65px; height: 65px;">
-                            <i class="bi bi-people-fill text-primary fs-4"></i>
+                @php
+                    $thematiques = App\Models\Thematique::where('is_delete', false)->get();
+                @endphp
+                @foreach ($thematiques as $item)
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="service-item bg-light rounded h-100 p-5">
+                            <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4"
+                                style="width: 65px; height: 65px;">
+                                <i class="bi bi-people-fill text-primary fs-4"></i>
+                            </div>
+                            <p class="mb-4 fw-bold">{{$item->abreviation}}</p>
+                            <h4 class="mb-3">{{$item->nom}}
+                            </h4>
+                            <a class="btn" href="{{ route('thematiquesShow', $item->slug) }}"><i
+                                    class="fa fa-plus text-primary me-3"></i>Lire plus</a>
                         </div>
-                        <p class="mb-4 fw-bold">Voir les actions de l'AMR en matière :</p>
-                        <h4 class="mb-3">De la gouvernance locale, de la décentralisation et des droits humains (GovLoc)
-                        </h4>
-                        <a class="btn" href=""><i class="fa fa-plus text-primary me-3"></i>Lire plus</a>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="service-item bg-light rounded h-100 p-5">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4"
-                            style="width: 65px; height: 65px;">
-                            <i class="fa fa-x-ray text-primary fs-4"></i>
-                        </div>
-                        <p class="mb-4 fw-bold">L'AMR oeuvre pour :</p>
-                        <h4 class="mb-3">
-
-                            Le genre et l’inclusion sociale (Santé communautaire – ANJE- / Empowerment des femmes,
-                            entreprenariat des jeunes) (G.I.S.)
-                        </h4>
-                        <a class="btn" href=""><i class="fa fa-plus text-primary me-3"></i>Lire plus</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="service-item bg-light rounded h-100 p-5">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4"
-                            style="width: 65px; height: 65px;">
-                            <i class="bi bi-diamond-fill text-primary fs-4"></i>
-                        </div>
-                        <p class="mb-4 fw-bold">
-                            Découvrir les actions de l' AMR pour les:
-                        </p>
-                        <h4 class="mb-3">
-                            Les systèmes alimentaires durables (agroécologie, foncier, environnement et changements
-                            climatiques ;
-                            plaidoyer pour la nutrition et le WASH) (S.A.D.)
-                        </h4>
-                        <a class="btn" href=""><i class="fa fa-plus text-primary me-3"></i>Lire plus</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="service-item bg-light rounded h-100 p-5">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4"
-                            style="width: 65px; height: 65px;">
-                            <i class="bi bi-disc-fill text-primary fs-4"></i>
-                        </div>
-                        <p class="mb-4 fw-bold">Comprendre les axes transversaux de l' AMR</p>
-                        <h4 class="mb-3">
-                            L’humanitaire, l’urgences et la cohésion sociale (Do No Harm, Leaving No One Behind) (H.U.CO.S.)
-                        </h4>
-                        <a class="btn" href=""><i class="fa fa-plus text-primary me-3"></i>Lire plus</a>
-                    </div>
-                </div>
-
+                @endforeach
             </div>
         </div>
     </div>
@@ -289,10 +249,10 @@
                     </div>
                 </div>
                 <!--div class="col-lg-6 pe-lg-0 wow fadeIn" data-wow-delay="0.5s" style="min-height: 400px;">
-                                                                <div class="position-relative h-100">
-                                                                    <img class="position-absolute img-fluid w-100 h-100" src="{{ asset('assets/img/amr-action.jpg') }}" style="object-fit: cover;" alt="">
-                                                                </div>
-                                                            </div-->
+                                                                        <div class="position-relative h-100">
+                                                                            <img class="position-absolute img-fluid w-100 h-100" src="{{ asset('assets/img/amr-action.jpg') }}" style="object-fit: cover;" alt="">
+                                                                        </div>
+                                                                    </div-->
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s" style="min-height: 400px;">
                     <div class="owl-carousel header-carousel" style="max-height: 500px;">
                         <div class="owl-carousel-item position-relative">
@@ -413,21 +373,21 @@
                 @php
                     $agents = App\Models\Agent::where([
                         'is_delete' => false,
-                        'type' => "agent",
+                        'type' => 'agent',
                     ])->get();
                 @endphp
                 @foreach ($agents as $item)
-                <div class="testimonial-item text-center">
-                    <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4"
-                        src="{{ asset($item->image) }}" style="width: 200px; height: 200px;">
-                    <div class="testimonial-text rounded text-center p-4">
-                        <p>
-                            {!!$item->description!!}
-                        </p>
-                        <h5 class="mb-1">{{$item->nom}}</h5>
-                        <span class="fst-italic">{{$item->post_occupe}}</span>
+                    <div class="testimonial-item text-center">
+                        <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="{{ asset($item->image) }}"
+                            style="width: 200px; height: 200px;">
+                        <div class="testimonial-text rounded text-center p-4">
+                            <p>
+                                {!! $item->description !!}
+                            </p>
+                            <h5 class="mb-1">{{ $item->nom }}</h5>
+                            <span class="fst-italic">{{ $item->post_occupe }}</span>
+                        </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>

@@ -125,16 +125,15 @@
                 <div class="nav-item dropdown">
                     <a href="#"
                         class="nav-link dropdown-toggle
-                    @if (Route::currentRouteName() == 'droits' ||
-                            Route::currentRouteName() == 'promotion' ||
-                            Route::currentRouteName() == 'systemes' ||
-                            Route::currentRouteName() == 'axes-transverseaux') active @endif"
+                    @if (Route::currentRouteName() == 'thematiques-detail') active @endif"
                         data-bs-toggle="dropdown">Thématiques</a>
                     <div class="dropdown-menu rounded-0 rounded-bottom m-0 bg-light">
-                        <a href="promotion" class="dropdown-item">G.I.S.</a>
-                        <a href="systemes" class="dropdown-item">S.A.D.</a>
-                        <a href="droits" class="dropdown-item">GovLoc</a>
-                        <a href="axes-transverseaux" class="dropdown-item">H.U.CO.S.</a>
+                        @php
+                            $thematiques = App\Models\Thematique::where('is_delete', false)->get();
+                        @endphp
+                        @foreach ($thematiques as $item)
+                            <a href="{{route('thematiquesShow',$item->slug)}}" class="dropdown-item">{{$item->abreviation}}</a>
+                        @endforeach
                     </div>
                 </div>
                 <a href="{{ route('allActualite') }}"
@@ -235,12 +234,9 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h5 class="text-light mb-4">Thématiques</h5>
-                    <a class="btn btn-link" href="">La gouvernance locale, de la décentralisation et des droits
-                        humains (GovLoc)</a>
-                    <a class="btn btn-link" href="">Le genre et l’inclusion sociale (G.I.S.)</a>
-                    <a class="btn btn-link" href="">Les systèmes alimentaires durables (S.A.D.)</a>
-                    <a class="btn btn-link" href="">L’humanitaire, l’urgences et la cohésion sociale
-                        (H.U.CO.S.)</a>
+                    @foreach ($thematiques as $item)
+                            <a class="btn btn-link" href="{{route('thematiquesShow',$item->slug)}}">{{$item->nom}}</a>
+                        @endforeach
                 </div>
 
 
@@ -260,7 +256,8 @@
                 <div class="col-lg-3 col-md-6">
                     <h5 class="text-light mb-4">Newsletter</h5>
                     <p>Abonnez-vous pour ne rien manquer des actualités de l'AMR</p>
-                    <form action="{{route('newsletters.store')}}" method="POST" class="position-relative mx-auto" style="max-width: 400px;">
+                    <form action="{{ route('newsletters.store') }}" method="POST" class="position-relative mx-auto"
+                        style="max-width: 400px;">
                         @csrf
                         <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text"
                             placeholder="Votre email" name="email">
