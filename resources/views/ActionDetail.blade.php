@@ -22,6 +22,7 @@
                         <div class="d-flex fs-14 mb-3">
                             <span class="me-auto">Publier le : {{$data->created_at}}</span>
                         </div>
+                        
                         <span class="fw-bold fs-20">
                             {{$data->nom}}
                         </span>
