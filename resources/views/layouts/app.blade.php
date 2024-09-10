@@ -145,8 +145,8 @@
                         @if (Route::currentRouteName() == 'thematiques-detail') active @endif"
                         data-bs-toggle="dropdown">Actions & Stories</a>
                     <div class="dropdown-menu rounded-0 rounded-bottom m-0 bg-light">
-                        <a href="{{ route('thematiquesShow', $item->slug) }}" class="dropdown-item">Nos actions</a>
-                        <a href="{{ route('thematiquesShow', $item->slug) }}" class="dropdown-item">Success
+                        <a href="{{ route('nosActions') }}" class="dropdown-item">Nos actions</a>
+                        <a href="{{ route('nosSuccessStory', $item->slug) }}" class="dropdown-item">Success
                             stories</a>
 
                     </div>

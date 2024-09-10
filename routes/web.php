@@ -181,6 +181,7 @@ Route::get('/home/taches', function () {
     return view('dashboard.tache', compact('datas'));
 })->name('taches');
 
+
 Route::get('/home/mon-tdb', function () {
     $datas = [1,2,3,4];
     return view('dashboard.accueil', compact('datas'));
@@ -214,6 +215,21 @@ Route::get('sendMail', function () {
 
     return "Send success";
 });
+Route::get('/nos-actions', function () {
+    //$datas = [1,2,3,4];
+    return view('action');
+})->name('nosActions');
+
+Route::get('/nos-success-stories', function () {
+    //$datas = [1,2,3,4];
+    return view('story');
+})->name('nosSuccessStory');
+
+Route::get('/actions-stories/{slug}', function ($slug) {
+    //$datas = [1,2,3,4];
+    $data = App\Models\ActionAndStory::where('slug',$slug)->first();
+    return view('actionDetail', compact('data'));
+})->name('actionDetail');
 
 /**Personnel */
 Route::get('/dashboard/membres', [PersonnelController::class, 'membres'])->name('membres');
