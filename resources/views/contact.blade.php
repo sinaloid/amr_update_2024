@@ -1,20 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-    
+
 
 
     <!-- Page Header Start -->
-    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container">
-            <h1 class="display-3 text-white mb-3 animated slideInDown">Nous contacter</h1>
-            <!--nav aria-label="breadcrumb animated slideInDown pb-4">
-                <ol class="breadcrumb text-uppercase mb-0">
-                    <li class="breadcrumb-item"><a class="text-white" href="#">Accueil</a></li>
-                    <li class="breadcrumb-item text-primary active" aria-current="page">Contact</li>
-                </ol>
-            </nav-->
+    <div class="container-fluid page-header pb-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <h1 class="display-3 text-white mb-5 animated slideInDown text-center pb-5">Nous contacter</h1>
+
+        <div class="container pb-5  text-center">
             <div class="py-5"></div>
+
         </div>
     </div>
     <!-- Page Header End -->
