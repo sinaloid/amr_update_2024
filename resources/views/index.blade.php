@@ -138,7 +138,7 @@
                         <img class="img-fluid mx-auto mb-4" src="{{ asset($item->image) }}"
                             style="width: 200px; height: 200px;">
                         <div class="testimonial-text rounded text-center p-4">
-
+                            
                             <p>
                                 {!! $item->description !!}
                             </p>

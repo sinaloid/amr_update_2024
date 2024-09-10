@@ -47,13 +47,12 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
+            <!-- Nav Item - Dashboard
             <li class="nav-item active">
                 <a class="nav-link" href="{{route('home')}}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Tableau de bord</span></a>
-            </li>
-
+            </li> -->
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -63,12 +62,12 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <!--li class="nav-item">
                 <a class="nav-link collapsed" href="{{route('projet.index')}}">
                     <i class="bi bi-calendar3"></i>
                     <span>Projets</span>
                 </a>
-            </li>
+            </li-->
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
@@ -108,105 +107,24 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link collapsed" href="{{route('actions_stories.index')}}">
+                    <i class="bi bi-journal-text"></i>
+                    <span>Nos actions</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{route('successStories')}}">
+                    <i class="bi bi-journal-text"></i>
+                    <span>Success stories</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="{{route('membres')}}">
                     <i class="bi bi-journal-text"></i>
-                    <span>Administrateur</span>
-                </a>
-            </li>
-            <!--li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="bi bi-people-fill"></i>
-                    <span>Personnels</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="{{route('adherents')}}">
-                            <span>Adhérents</span>
-                        </a>
-                        <a class="collapse-item" href="{{route('membres')}}">
-                            <span>Administrateur</span>
-                        </a>
-
-                    </div>
-                </div>
-            </li-->
-
-            <!--li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('paiement')}}">
-                    <i class="bi bi-credit-card-fill"></i>
-                    <span>Paiements</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('carburant.index')}}">
-                    <svg class="d-inline-block" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fuel-pump-fill" viewBox="0 0 16 16">
-                        <path d="M1 2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8a2 2 0 0 1 2 2v.5a.5.5 0 0 0 1 0V8h-.5a.5.5 0 0 1-.5-.5V4.375a.5.5 0 0 1 .5-.5h1.495c-.011-.476-.053-.894-.201-1.222a.97.97 0 0 0-.394-.458c-.184-.11-.464-.195-.9-.195a.5.5 0 0 1 0-1c.564 0 1.034.11 1.412.336.383.228.634.551.794.907.295.655.294 1.465.294 2.081V7.5a.5.5 0 0 1-.5.5H15v4.5a1.5 1.5 0 0 1-3 0V12a1 1 0 0 0-1-1v4h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V2Zm2.5 0a.5.5 0 0 0-.5.5v5a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 .5-.5v-5a.5.5 0 0 0-.5-.5h-5Z"/>
-                      </svg>
-                    <span>Carburants</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('fichier.index')}}">
-                    <svg class="d-inline-block" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark" viewBox="0 0 16 16">
-                        <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
-                      </svg>
-                    <span>Fichiers</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('paiement')}}">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Paramètres</span>
+                    <span>Administrateurs</span>
                 </a>
             </li>
 
-            <hr class="sidebar-divider">
-
-            <div class="sidebar-heading">
-                Mon Compte
-            </div>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('mon-tdb')}}">
-                    <i class="bi bi-house-door-fill"></i>
-                    <span>Accueil</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('taches')}}">
-                    <i class="fas fa-clipboard-list fa-2x"></i>
-                    <span>Mes tâches</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('messages')}}">
-                    <i class="bi bi-chat-dots-fill"></i>
-                    <span>Messages</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('reunions')}}">
-                    <i class="bi bi-diagram-3-fill"></i>
-                    <span>Mes réunions</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('mes-rapports')}}">
-                    <i class="bi bi-journal-text"></i>
-                    <span>Mes rapports</span></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('carburant.index')}}">
-                    <svg class="d-inline-block" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fuel-pump-fill" viewBox="0 0 16 16">
-                        <path d="M1 2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8a2 2 0 0 1 2 2v.5a.5.5 0 0 0 1 0V8h-.5a.5.5 0 0 1-.5-.5V4.375a.5.5 0 0 1 .5-.5h1.495c-.011-.476-.053-.894-.201-1.222a.97.97 0 0 0-.394-.458c-.184-.11-.464-.195-.9-.195a.5.5 0 0 1 0-1c.564 0 1.034.11 1.412.336.383.228.634.551.794.907.295.655.294 1.465.294 2.081V7.5a.5.5 0 0 1-.5.5H15v4.5a1.5 1.5 0 0 1-3 0V12a1 1 0 0 0-1-1v4h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V2Zm2.5 0a.5.5 0 0 0-.5.5v5a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 .5-.5v-5a.5.5 0 0 0-.5-.5h-5Z"/>
-                      </svg>
-                    <span>Carburants</span></a>
-            </li>
-
-            <li-- class="nav-item">
-                <a class="nav-link" href="{{route('mes-paiements')}}">
-                    <i class="bi bi-credit-card-fill"></i>
-                    <span>Mes paiements</span></a>
-            </li-->
 
             <hr class="sidebar-divider d-none d-md-block">
 

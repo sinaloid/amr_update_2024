@@ -14,6 +14,7 @@ use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PartenaireController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\ThematiqueController;
+use App\Http\Controllers\ActionAndStoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -222,6 +223,8 @@ Route::get('/dashboard/deletePersonnel/{slug}', [PersonnelController::class, 'de
 Route::get('/dashboard/equipe-operationnelle', [AgentController::class, 'equipe'])->name('equipeOpera');
 Route::get('/dashboard/membre', [AgentController::class, 'membre'])->name('membreAgent');
 
+Route::get('/dashboard/success-stories', [ActionAndStoryController::class, 'story'])->name('successStories');
+
 //Route::post('/adhesion', [AdhesionController::class, 'create'])->name('createAdhesion');
 Route::get('/dashboard/deleteAdherent/{slug}', [AdhesionController::class, 'deleteAdherent'])->name('deleteAdherent');
 Route::get('/dashboard/adhesion', [AdhesionController::class, 'adhesion'])->name('adherents');
@@ -237,6 +240,7 @@ Route::resource('/dashboard/agents', AgentController::class);
 Route::resource('/dashboard/partenaires', PartenaireController::class);
 Route::resource('/dashboard/newsletters', NewsletterController::class);
 Route::resource('/dashboard/thematiques', ThematiqueController::class);
+Route::resource('/dashboard/actions_stories', ActionAndStoryController::class);
 
 
 Route::get('{id}', function () {

@@ -132,14 +132,25 @@
                             $thematiques = App\Models\Thematique::where('is_delete', false)->get();
                         @endphp
                         @foreach ($thematiques as $item)
-                            <a href="{{route('thematiquesShow',$item->slug)}}" class="dropdown-item">{{$item->abreviation}}</a>
+                            <a href="{{ route('thematiquesShow', $item->slug) }}"
+                                class="dropdown-item">{{ $item->abreviation }}</a>
                         @endforeach
                     </div>
                 </div>
                 <a href="{{ route('allActualite') }}"
                     class="nav-item nav-link @if (Route::currentRouteName() == 'allActualite') active @endif">Actualités</a>
-                <a href="{{ route('apropos') }}"
-                    class="nav-item nav-link @if (Route::currentRouteName() == 'apropos') active @endif">Nos actions</a>
+                <div class="nav-item dropdown">
+                    <a href="#"
+                        class="nav-link dropdown-toggle
+                        @if (Route::currentRouteName() == 'thematiques-detail') active @endif"
+                        data-bs-toggle="dropdown">Actions & Stories</a>
+                    <div class="dropdown-menu rounded-0 rounded-bottom m-0 bg-light">
+                        <a href="{{ route('thematiquesShow', $item->slug) }}" class="dropdown-item">Nos actions</a>
+                        <a href="{{ route('thematiquesShow', $item->slug) }}" class="dropdown-item">Success
+                            stories</a>
+
+                    </div>
+                </div>
                 <a href="{{ route('contact') }}"
                     class="nav-item nav-link @if (Route::currentRouteName() == 'contact') active @endif">Contact</a>
                 @guest
@@ -152,7 +163,7 @@
                         <!--a class="nav-item nav-link" href="{{ route('register') }}">{{ __('Register') }}</a-->
                     @endif
                 @else
-                    <a href="{{ route('home') }}" class="nav-item nav-link">Compte</a>
+                    <a href="{{ route('actualite.index') }}" class="nav-item nav-link">Compte</a>
 
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
@@ -235,8 +246,9 @@
                 <div class="col-lg-3 col-md-6">
                     <h5 class="text-light mb-4">Thématiques</h5>
                     @foreach ($thematiques as $item)
-                            <a class="btn btn-link" href="{{route('thematiquesShow',$item->slug)}}">{{$item->nom}}</a>
-                        @endforeach
+                        <a class="btn btn-link"
+                            href="{{ route('thematiquesShow', $item->slug) }}">{{ $item->nom }}</a>
+                    @endforeach
                 </div>
 
 
