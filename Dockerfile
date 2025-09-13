@@ -1,89 +1,61 @@
-# syntax = docker/dockerfile:experimental
+# Utilise l'image officielle PHP 8.2 avec FPM
+FROM php:8.2-fpm
 
-# Default to PHP 8.2, but we attempt to match
-# the PHP version from the user (wherever `flyctl launch` is run)
-# Valid version values are PHP 7.4+
-ARG PHP_VERSION=8.2
-ARG NODE_VERSION=14
-FROM fideloper/fly-laravel:${PHP_VERSION} as base
+# Installation des dépendances système essentielles
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    libzip-dev \
+    zip \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
 
-# PHP_VERSION needs to be repeated here
-# See https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
-ARG PHP_VERSION
+# Installation des extensions PHP
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
-LABEL fly_launch_runtime="laravel"
+# Installation de l'extension Redis
+RUN pecl install redis && docker-php-ext-enable redis
 
-# copy application code, skipping files based on .dockerignore
-COPY . /var/www/html
+# Installation de Node.js 18.x
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN composer install --optimize-autoloader --no-dev \
-    && mkdir -p storage/logs \
-    && php artisan optimize:clear \
-    && chown -R www-data:www-data /var/www/html \
-    && sed -i 's/protected \$proxies/protected \$proxies = "*"/g' app/Http/Middleware/TrustProxies.php \
-    && echo "MAILTO=\"\"\n* * * * * www-data /usr/bin/php /var/www/html/artisan schedule:run" > /etc/cron.d/laravel \
-    && cp .fly/entrypoint.sh /entrypoint \
-    && chmod +x /entrypoint
+# Installation de Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# If we're using Octane...
-RUN if grep -Fq "laravel/octane" /var/www/html/composer.json; then \
-        rm -rf /etc/supervisor/conf.d/fpm.conf; \
-        if grep -Fq "spiral/roadrunner" /var/www/html/composer.json; then \
-            mv /etc/supervisor/octane-rr.conf /etc/supervisor/conf.d/octane-rr.conf; \
-            if [ -f ./vendor/bin/rr ]; then ./vendor/bin/rr get-binary; fi; \
-            rm -f .rr.yaml; \
-        else \
-            mv .fly/octane-swoole /etc/services.d/octane; \
-            mv /etc/supervisor/octane-swoole.conf /etc/supervisor/conf.d/octane-swoole.conf; \
-        fi; \
-        rm /etc/nginx/sites-enabled/default; \
-        ln -sf /etc/nginx/sites-available/default-octane /etc/nginx/sites-enabled/default; \
-    fi
+# Configuration du répertoire de travail
+WORKDIR /var/www/html
 
-# Multi-stage build: Build static assets
-# This allows us to not include Node within the final container
-FROM node:${NODE_VERSION} as node_modules_go_brrr
+# Copie des fichiers de configuration
+COPY composer.json composer.lock* ./
 
-RUN mkdir /app
+# Installation des dépendances PHP
+RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interaction
 
-RUN mkdir -p  /app
-WORKDIR /app
+# Copie du code source
 COPY . .
-COPY --from=base /var/www/html/vendor /app/vendor
 
-# Use yarn or npm depending on what type of
-# lock file we might find. Defaults to
-# NPM if no lock file is found.
-# Note: We run "production" for Mix and "build" for Vite
-RUN if [ -f "vite.config.js" ]; then \
-        ASSET_CMD="build"; \
-    else \
-        ASSET_CMD="production"; \
-    fi; \
-    if [ -f "yarn.lock" ]; then \
-        yarn install --frozen-lockfile; \
-        yarn $ASSET_CMD; \
-    elif [ -f "package-lock.json" ]; then \
-        npm ci --no-audit; \
-        npm run $ASSET_CMD; \
-    else \
-        npm install; \
-        npm run $ASSET_CMD; \
-    fi;
+# Note: Les assets sont supposés être déjà compilés et présents dans public/
+# Pour compiler les assets, exécutez 'npm run production' sur l'hôte avant le build
 
-# From our base container created above, we
-# create our final image, adding in static
-# assets that we generated above
-FROM base
+# Configuration des permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html/storage \
+    && chmod -R 755 /var/www/html/bootstrap/cache
 
-# Packages like Laravel Nova may have added assets to the public directory
-# or maybe some custom assets were added manually! Either way, we merge
-# in the assets we generated above rather than overwrite them
-COPY --from=node_modules_go_brrr /app/public /var/www/html/public-npm
-RUN rsync -ar /var/www/html/public-npm/ /var/www/html/public/ \
-    && rm -rf /var/www/html/public-npm \
-    && chown -R www-data:www-data /var/www/html/public
+# Configuration PHP-FPM
+RUN sed -i 's/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/' /usr/local/etc/php-fpm.d/www.conf \
+    && echo 'pm.max_children = 50' >> /usr/local/etc/php-fpm.d/www.conf \
+    && echo 'pm.start_servers = 10' >> /usr/local/etc/php-fpm.d/www.conf \
+    && echo 'pm.min_spare_servers = 5' >> /usr/local/etc/php-fpm.d/www.conf \
+    && echo 'pm.max_spare_servers = 20' >> /usr/local/etc/php-fpm.d/www.conf
 
-EXPOSE 8080
+# Exposition du port 9000 pour PHP-FPM
+EXPOSE 9000
 
-ENTRYPOINT ["/entrypoint"]
+# Commande par défaut
+CMD ["php-fpm"]

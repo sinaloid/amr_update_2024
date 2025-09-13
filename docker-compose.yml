@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  # Application Laravel avec PHP-FPM
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: amr_site_app
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/html
+      - ./storage:/var/www/html/storage
+    networks:
+      - amr_site_network
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - FORCE_HTTPS=true
+      - ASSET_URL=https://amrburkina.org
+
+  # Nginx pour servir les fichiers statiques (optionnel dans le container)
+  nginx:
+    image: nginx:alpine
+    container_name: amr_site_nginx
+    restart: unless-stopped
+    ports:
+      - "8084:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - amr_site_network
+    depends_on:
+      - app
+
+  # Base de données MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: amr_site_mysql
+    restart: unless-stopped
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - amr_site_network
+
+  # Redis pour le cache et les sessions
+  redis:
+    image: redis:alpine
+    container_name: amr_site_redis
+    restart: unless-stopped
+    ports:
+      - "6382:6379"
+    networks:
+      - amr_site_network
+
+  # phpMyAdmin (optionnel pour l'administration de la base)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: amr_site_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8085:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 300M
+    networks:
+      - amr_site_network
+    depends_on:
+      - mysql
+
+# Volumes pour la persistance des données
+volumes:
+  mysql_data:
+
+# Réseau pour la communication entre les conteneurs
+networks:
+  amr_site_network:
+    driver: bridge
